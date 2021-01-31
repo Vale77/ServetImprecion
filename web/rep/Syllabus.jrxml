@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Syllabus" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="193ed157-532f-4013-a7b1-1cbae381a40f">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="618"/>
+	<parameter name="anio" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="per" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="asig" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT distinct
+     SYLABUS_DOCENTE."ANIO" AS SYLABUS_DOCENTE_ANIO,
+     SYLABUS_DOCENTE."CODIGO_MATERIA" AS SYLABUS_DOCENTE_CODIGO_MATERIA,
+     SYLABUS_DOCENTE."CODIGO_NIVEL" AS SYLABUS_DOCENTE_CODIGO_NIVEL,
+     SYLABUS_DOCENTE."NUMERO_CLASES" AS SYLABUS_DOCENTE_NUMERO_CLASES,
+     SYLABUS_DOCENTE."NUMERO_CREDITOS" AS SYLABUS_DOCENTE_NUMERO_CREDITOS,
+     SYLABUS_DOCENTE."MODALIDAD" AS SYLABUS_DOCENTE_MODALIDAD,
+     SYLABUS_DOCENTE."HORARIO" AS SYLABUS_DOCENTE_HORARIO,
+     SYLABUS_DOCENTE."DESCRIPCION_MATERIA" AS SYLABUS_DOCENTE_DESCRIPCION_MATERIA,
+     SYLABUS_DOCENTE."OBJETIVO_GENERAL" AS SYLABUS_DOCENTE_OBJETIVO_GENERAL,
+     SYLABUS_DOCENTE."OBJETIVO_ESPECIFICO" AS SYLABUS_DOCENTE_OBJETIVO_ESPECIFICO,
+     SYLABUS_DOCENTE."PROCESO_DOCENTE" AS SYLABUS_DOCENTE_PROCESO_DOCENTE,
+     SYLABUS_DOCENTE."EVALUACION" AS SYLABUS_DOCENTE_EVALUACION,
+     SYLABUS_DOCENTE."BIBLIOGRAFIA" AS SYLABUS_DOCENTE_BIBLIOGRAFIA,
+     REPLACE(SYLABUS_DOCENTE."OBSERVACIONES",'&','&amp;') AS SYLABUS_DOCENTE_OBSERVACIONES,
+     SYLABUS_DOCENTE."ESTADO_SYLABUS" AS SYLABUS_DOCENTE_ESTADO_SYLABUS,
+     SYLABUS_DOCENTE."ESTADO_ENVIO" AS SYLABUS_DOCENTE_ESTADO_ENVIO,
+     SYLABUS_DOCENTE."APROBADO_POR" AS SYLABUS_DOCENTE_APROBADO_POR,
+     SYLABUS_DOCENTE."FECHA_APROBACION" AS SYLABUS_DOCENTE_FECHA_APROBACION,
+     SYLABUS_DOCENTE."FECHA_CREA" AS SYLABUS_DOCENTE_FECHA_CREA,
+     V_PENSUM_MATERIA."NOMBRE_MATERIA" AS V_PENSUM_MATERIA_NOMBRE_MATERIA,
+	 academico.dbo.f_ret_area_materia(SYLABUS_DOCENTE.ANIO,SYLABUS_DOCENTE.CICLO,SYLABUS_DOCENTE.CODIGO_MATERIA,SYLABUS_DOCENTE.CODIGO_NIVEL,'A') AS AREA,
+     academico.dbo.f_ret_area_materia(SYLABUS_DOCENTE.ANIO,SYLABUS_DOCENTE.CICLO,SYLABUS_DOCENTE.CODIGO_MATERIA,SYLABUS_DOCENTE.CODIGO_NIVEL,'P')  AS PROGRAMA,
+     V_PENSUM_MATERIA."IDENTIF_MATERIA" AS V_PENSUM_MATERIA_IDENTIF_MATERIA,
+     academico.dbo.f_ret_profesor_materia(SYLABUS_DOCENTE.ANIO,SYLABUS_DOCENTE.CICLO,SYLABUS_DOCENTE.CODIGO_MATERIA,V_PENSUM_MATERIA.CODIGO_ESCUELA,SYLABUS_DOCENTE.CODIGO_NIVEL,'E') AS V_PENSUM_MATERIA_EMAIL_PROFESOR,
+     V_PENSUM_MATERIA."TRIMESTRE" AS V_PENSUM_MATERIA_TRIMESTRE,
+academico.dbo.f_ret_profesor_materia(SYLABUS_DOCENTE.ANIO,SYLABUS_DOCENTE.CICLO,SYLABUS_DOCENTE.CODIGO_MATERIA,V_PENSUM_MATERIA.CODIGO_ESCUELA,SYLABUS_DOCENTE.CODIGO_NIVEL,'N') as V_PENSUM_MATERIA_NOMBRE_PROFESOR
+FROM
+     academico.dbo.V_PENSUM_MATERIA INNER JOIN academico.dbo.SYLABUS_DOCENTE ON V_PENSUM_MATERIA."CODIGO_PROFESOR" = SYLABUS_DOCENTE."CODIGO_PROFESOR"
+     AND V_PENSUM_MATERIA."CODIGO_MATERIA" = SYLABUS_DOCENTE."CODIGO_MATERIA"
+     AND V_PENSUM_MATERIA."ANIO" = SYLABUS_DOCENTE."ANIO"
+     AND V_PENSUM_MATERIA."CODIGO_NIVEL" = SYLABUS_DOCENTE."CODIGO_NIVEL"
+     AND V_PENSUM_MATERIA."CICLO" = SYLABUS_DOCENTE."CICLO"
+WHERE
+     SYLABUS_DOCENTE."ANIO" = $P{anio}
+     and SYLABUS_DOCENTE."CICLO" = 1
+     and SYLABUS_DOCENTE."CODIGO_NIVEL" = $P{per}
+     and SYLABUS_DOCENTE."CODIGO_MATERIA" = $P{asig}]]>
+	</queryString>
+	<field name="SYLABUS_DOCENTE_ANIO" class="java.lang.Integer"/>
+	<field name="SYLABUS_DOCENTE_CODIGO_MATERIA" class="java.math.BigDecimal"/>
+	<field name="SYLABUS_DOCENTE_CODIGO_NIVEL" class="java.math.BigDecimal"/>
+	<field name="SYLABUS_DOCENTE_NUMERO_CLASES" class="java.lang.Integer"/>
+	<field name="SYLABUS_DOCENTE_NUMERO_CREDITOS" class="java.math.BigDecimal"/>
+	<field name="SYLABUS_DOCENTE_MODALIDAD" class="java.lang.String"/>
+	<field name="SYLABUS_DOCENTE_HORARIO" class="java.lang.String"/>
+	<field name="SYLABUS_DOCENTE_DESCRIPCION_MATERIA" class="java.lang.String"/>
+	<field name="SYLABUS_DOCENTE_OBJETIVO_GENERAL" class="java.lang.String"/>
+	<field name="SYLABUS_DOCENTE_OBJETIVO_ESPECIFICO" class="java.lang.String"/>
+	<field name="SYLABUS_DOCENTE_PROCESO_DOCENTE" class="java.lang.String"/>
+	<field name="SYLABUS_DOCENTE_EVALUACION" class="java.lang.String"/>
+	<field name="SYLABUS_DOCENTE_BIBLIOGRAFIA" class="java.lang.String"/>
+	<field name="SYLABUS_DOCENTE_OBSERVACIONES" class="java.lang.String"/>
+	<field name="SYLABUS_DOCENTE_ESTADO_SYLABUS" class="java.lang.String"/>
+	<field name="SYLABUS_DOCENTE_ESTADO_ENVIO" class="java.lang.String"/>
+	<field name="SYLABUS_DOCENTE_APROBADO_POR" class="java.math.BigDecimal"/>
+	<field name="SYLABUS_DOCENTE_FECHA_APROBACION" class="java.sql.Timestamp"/>
+	<field name="SYLABUS_DOCENTE_FECHA_CREA" class="java.sql.Timestamp"/>
+	<field name="V_PENSUM_MATERIA_NOMBRE_MATERIA" class="java.lang.String"/>
+	<field name="AREA" class="java.lang.String"/>
+	<field name="PROGRAMA" class="java.lang.String"/>
+	<field name="V_PENSUM_MATERIA_IDENTIF_MATERIA" class="java.lang.String"/>
+	<field name="V_PENSUM_MATERIA_EMAIL_PROFESOR" class="java.lang.String"/>
+	<field name="V_PENSUM_MATERIA_TRIMESTRE" class="java.lang.String"/>
+	<field name="V_PENSUM_MATERIA_NOMBRE_PROFESOR" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="2" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="68" splitType="Stretch">
+			<staticText>
+				<reportElement x="73" y="4" width="449" height="20" uuid="10b3b21a-3d48-4476-a482-e23936d44c90"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sílabo]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="73" height="55" uuid="d703dabb-99f9-4e00-8034-2c75219fb109"/>
+				<imageExpression><![CDATA["Logo-UASB-E-centr.gif"]]></imageExpression>
+			</image>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="488" y="44" width="63" height="11" uuid="38312709-ccc4-4fc1-ab93-2402cee8c0de"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="430" y="44" width="58" height="11" uuid="711cf8e9-971e-47e7-9ee5-468813dcc9be"/>
+				<textElement textAlignment="Right">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Impr:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="56" width="555" height="1" uuid="baaa0718-0110-4a20-8cbc-1a6bca986ebc"/>
+			</line>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement mode="Transparent" x="73" y="25" width="449" height="19" forecolor="#000000" backcolor="#FFFFFF" uuid="d15b6270-d8fd-4d51-a954-050cc65b744c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["AÑO ACADEMICO: "+$F{SYLABUS_DOCENTE_ANIO}+ " - " + ($F{SYLABUS_DOCENTE_ANIO} +1)]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="82" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Transparent" x="398" y="11" width="78" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="ab87fef0-34fb-448b-959a-13196e96704c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[FECHA REGISTRO:]]></text>
+			</staticText>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="476" y="11" width="75" height="11" uuid="b384acd0-f6b8-430d-8c29-3c7931a71b61"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SYLABUS_DOCENTE_FECHA_CREA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="398" y="0" width="78" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="cca3a18c-ce95-4e54-92c6-848983bc4b2c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[FECHA APROB:]]></text>
+			</staticText>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="476" y="0" width="75" height="11" uuid="59db2373-eb46-42a7-b476-10e0acfaac12"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SYLABUS_DOCENTE_FECHA_APROBACION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="9" y="56" width="92" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="d3a798c2-8354-4050-bd41-491f9eb0ac01"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[DOCENTE :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="0" width="101" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="21d5e29a-3331-412a-ad98-e711cd884e80"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[ASIGNATURA/MODULO :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="9" y="45" width="92" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="21d5e29a-3331-412a-ad98-e711cd884e80"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[AREA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="9" y="29" width="92" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="d3bafeb5-b4c4-447c-a3ee-cca037019586"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[PROGRAMA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="9" y="18" width="92" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="2d20ef3d-31e1-431c-a084-63a986c040c3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[TRIMESTRE :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="398" y="22" width="78" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="27efa937-594e-4b63-bc13-e2d3d5943845"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[MODALIDAD :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="398" y="33" width="59" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="4e5de783-804e-4bc1-a721-20dcfe35bb8f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[N° CREDITOS :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="476" y="33" width="58" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="9594b422-14e9-4f8e-860b-e58500f4555c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[N° CLASES :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="9" y="67" width="92" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="394e0aac-1ee5-45e7-aab6-47889e392548"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[CORREO:]]></text>
+			</staticText>
+			<textField pattern="###0" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="457" y="33" width="16" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="e583aefd-e53a-4ed2-987b-2f2fe6d6bc31"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single" leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SYLABUS_DOCENTE_NUMERO_CREDITOS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="534" y="33" width="17" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="23e7016b-a76a-4fc4-919c-7c1bf8868a37"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single" leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SYLABUS_DOCENTE_NUMERO_CLASES}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="79" width="555" height="1" uuid="baaa0718-0110-4a20-8cbc-1a6bca986ebc"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="101" y="56" width="450" height="11" uuid="744a9cbc-681f-40fd-91d7-acc3666b389e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{V_PENSUM_MATERIA_NOMBRE_PROFESOR}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="101" y="0" width="281" height="11" uuid="744a9cbc-681f-40fd-91d7-acc3666b389e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{V_PENSUM_MATERIA_IDENTIF_MATERIA} + ' ' +  $F{V_PENSUM_MATERIA_NOMBRE_MATERIA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="101" y="45" width="281" height="11" uuid="744a9cbc-681f-40fd-91d7-acc3666b389e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AREA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="101" y="29" width="281" height="11" uuid="744a9cbc-681f-40fd-91d7-acc3666b389e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PROGRAMA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="101" y="18" width="80" height="11" uuid="744a9cbc-681f-40fd-91d7-acc3666b389e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{V_PENSUM_MATERIA_TRIMESTRE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="476" y="22" width="75" height="11" uuid="744a9cbc-681f-40fd-91d7-acc3666b389e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SYLABUS_DOCENTE_MODALIDAD}.equals("P")?"Presencial":""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="101" y="67" width="356" height="11" uuid="744a9cbc-681f-40fd-91d7-acc3666b389e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{V_PENSUM_MATERIA_EMAIL_PROFESOR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="337" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="534" height="11" uuid="5051dfbc-dd80-4b82-a5d6-fe22488a8ad8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[1. DESCRIPCION DE LA ASIGNATURA/MODULO]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="22" y="11" width="512" height="11" uuid="f6903b53-89fd-4d93-a46e-1b37c00063f1"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="html">
+					<font fontName="SansSerif" size="8" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[ec.edu.uasb.strings.AcutesHTML.replaceAcutesHTML($F{SYLABUS_DOCENTE_DESCRIPCION_MATERIA})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="26" width="534" height="11" uuid="0652182f-f3b1-4731-815e-dd90b8be49de"/>
+				<box topPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[2. OBJETIVOS DE LA ASIGNATURA/MODULO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="39" width="524" height="11" uuid="0652182f-f3b1-4731-815e-dd90b8be49de"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[2.1. GENERAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Transparent" x="0" y="93" width="534" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="813f0b45-3178-46d1-ac94-a74e6df22681"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[3. CONTENIDOS DE LA ASIGNATURA/MODULO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Transparent" x="0" y="156" width="534" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="813f0b45-3178-46d1-ac94-a74e6df22681"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[4. PROCESO DOCENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Transparent" x="0" y="185" width="534" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="813f0b45-3178-46d1-ac94-a74e6df22681"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[5. EVALUACIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Transparent" x="0" y="215" width="534" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="813f0b45-3178-46d1-ac94-a74e6df22681"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[6. BIBLIOGRAFIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Transparent" x="10" y="226" width="524" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="813f0b45-3178-46d1-ac94-a74e6df22681"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[6.1. LECTURA OBLIGATORIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="287" width="524" height="11" uuid="0652182f-f3b1-4731-815e-dd90b8be49de"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[6.2. APOYO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Transparent" x="0" y="314" width="534" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="813f0b45-3178-46d1-ac94-a74e6df22681"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[7. OBSERVACIONES]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="22" y="50" width="512" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="a5473288-5080-4660-8d2f-1a694941e470"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" rotation="None" markup="html">
+					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[ec.edu.uasb.strings.AcutesHTML.replaceAcutesHTML($F{SYLABUS_DOCENTE_OBJETIVO_GENERAL})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Transparent" x="10" y="64" width="524" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="655633ea-cab5-4f4b-a65e-0fa0c65e2720"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[2.2. ESPECIFICOS]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="22" y="75" width="512" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="be140d79-47e4-4888-b39e-a86154094674"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" rotation="None" markup="html">
+					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[ec.edu.uasb.strings.AcutesHTML.replaceAcutesHTML($F{SYLABUS_DOCENTE_OBJETIVO_ESPECIFICO})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="10" y="167" width="524" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="fb5d3601-d944-427d-a907-4545584705f9"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" rotation="None" markup="html">
+					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[ec.edu.uasb.strings.AcutesHTML.replaceAcutesHTML($F{SYLABUS_DOCENTE_PROCESO_DOCENTE})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="10" y="196" width="524" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="dbc4dfde-0b57-4461-aa14-66dbe6d2b375"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" rotation="None" markup="html">
+					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[ec.edu.uasb.strings.AcutesHTML.replaceAcutesHTML($F{SYLABUS_DOCENTE_EVALUACION})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="10" y="325" width="524" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="e06dda85-e481-43a5-822a-e6c2da11f52c"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" rotation="None" markup="html">
+					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[ec.edu.uasb.strings.AcutesHTML.replaceAcutesHTML($F{SYLABUS_DOCENTE_OBSERVACIONES})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="22" y="298" width="512" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="acff9fd0-b879-4e39-868c-039592076697"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" rotation="None" markup="html">
+					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[ec.edu.uasb.strings.AcutesHTML.replaceAcutesHTML($F{SYLABUS_DOCENTE_BIBLIOGRAFIA})]]></textFieldExpression>
+			</textField>
+			<subreport runToBottom="false">
+				<reportElement positionType="Float" x="22" y="106" width="512" height="39" uuid="d6b3e20e-af99-4191-b95d-9beba0def45c"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="anio">
+					<subreportParameterExpression><![CDATA[$P{anio}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="asig">
+					<subreportParameterExpression><![CDATA[$P{asig}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="per">
+					<subreportParameterExpression><![CDATA[$P{per}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Syllabus_contenido.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport runToBottom="false">
+				<reportElement positionType="Float" x="22" y="240" width="512" height="39" uuid="d6b3e20e-af99-4191-b95d-9beba0def45c"/>
+				<subreportParameter name="anio">
+					<subreportParameterExpression><![CDATA[$P{anio}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="asig">
+					<subreportParameterExpression><![CDATA[$P{asig}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="per">
+					<subreportParameterExpression><![CDATA[$P{per}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Syllabus_biblioNew.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="2" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement x="442" y="1" width="80" height="11" uuid="42f64dba-d538-4eb2-8846-e9cebed8812c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="522" y="1" width="29" height="11" uuid="db5127eb-2781-4c2f-8a72-eaf0b4c0aa6f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="9" y="1" width="389" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="28b749bc-4098-4f05-aadb-3999a6d4f7b6"/>
+				<textElement verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[SISTEMA ACADEMICO v1.0]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="2" splitType="Stretch"/>
+	</summary>
+</jasperReport>

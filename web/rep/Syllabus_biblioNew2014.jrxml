@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Syllabus_biblioNew2014" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="7e5fa021-18d0-4def-bcad-6d415085fc7d">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="anio" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="per" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="asig" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="par" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="prog" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     SYC."ANIO" AS SYLABUS_CONTENIDO_ANIO,
+     SYC."CICLO" AS SYLABUS_CONTENIDO_CICLO,
+     SYC."CODIGO_PROFESOR" AS SYLABUS_CONTENIDO_CODIGO_PROFESOR,
+     SYC."CODIGO_NIVEL" AS SYLABUS_CONTENIDO_CODIGO_NIVEL,
+     SYC."NUM_CONTENIDO" AS SYLABUS_CONTENIDO_NUM_CONTENIDO,
+     SYC."TIPO" AS SYLABUS_CONTENIDO_TIPO,
+     SYC."TEMA" AS SYLABUS_CONTENIDO_TEMA,
+     SYC."CLASE" AS SYLABUS_CONTENIDO_CLASE,
+     SYC."SUBTEMA" AS SYLABUS_CONTENIDO_SUBTEMA,
+     SYC."ORDEN" AS SYLABUS_CONTENIDO_ORDEN,
+     SYC."CODIGO_MATERIA" AS SYLABUS_CONTENIDO_CODIGO_MATERIA,
+SYC."BIBLIOGRAFIA" AS SYLABUS_CONTENIDO_BIBLIOGRAFIA
+FROM
+     interfaseOcu.dbo.SYLABUS_CONTENIDO SYC
+WHERE SYC."ANIO" = $P{anio} and SYC."CICLO" = 1 and SYC."CODIGO_NIVEL" = $P{per} and SYC."TIPO" = 'C'
+and SYC."CODIGO_MATERIA" = $P{asig} and SYC.COD_PARALELO = $P{par} and SYC.COD_PROGRAMA =  $P{prog}
+and (SYC."TEMA" is not null or SYC."SUBTEMA" is not null)]]>
+	</queryString>
+	<field name="SYLABUS_CONTENIDO_ANIO" class="java.lang.Integer"/>
+	<field name="SYLABUS_CONTENIDO_CICLO" class="java.lang.Integer"/>
+	<field name="SYLABUS_CONTENIDO_CODIGO_PROFESOR" class="java.math.BigDecimal"/>
+	<field name="SYLABUS_CONTENIDO_CODIGO_NIVEL" class="java.math.BigDecimal"/>
+	<field name="SYLABUS_CONTENIDO_NUM_CONTENIDO" class="java.math.BigDecimal"/>
+	<field name="SYLABUS_CONTENIDO_TIPO" class="java.lang.String"/>
+	<field name="SYLABUS_CONTENIDO_TEMA" class="java.lang.String"/>
+	<field name="SYLABUS_CONTENIDO_CLASE" class="java.lang.String"/>
+	<field name="SYLABUS_CONTENIDO_SUBTEMA" class="java.lang.String"/>
+	<field name="SYLABUS_CONTENIDO_ORDEN" class="java.lang.Integer"/>
+	<field name="SYLABUS_CONTENIDO_CODIGO_MATERIA" class="java.math.BigDecimal"/>
+	<field name="SYLABUS_CONTENIDO_BIBLIOGRAFIA" class="java.lang.String"/>
+	<variable name="ordinal" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[1]]></variableExpression>
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="2" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="2" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="12" splitType="Stretch">
+			<staticText>
+				<reportElement x="5" y="1" width="21" height="11" uuid="539c0cf9-41a6-4fd1-b25a-18c20f29d532"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ORD.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="1" width="230" height="11" uuid="8b31e8d9-61d7-40ba-bcb9-2e4efb8d3440"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TEMA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="256" y="1" width="283" height="11" uuid="1e3969fc-418e-40c5-82ca-e400ecad7d94"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BIBLIOGRAFIA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="5" y="1" width="21" height="11" uuid="b5805e6d-a179-4050-a09a-a7de2d67d08b"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{ordinal}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="26" y="1" width="230" height="11" uuid="99294c95-1eea-49b2-99c0-1f9c5b233ce1"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph leftIndent="2" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SYLABUS_CONTENIDO_TEMA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="256" y="1" width="283" height="11" uuid="18e48285-4557-4ef4-9787-640243998070"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="html">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[ec.edu.uasb.strings.AcutesHTML.replaceAcutesHTML($F{SYLABUS_CONTENIDO_BIBLIOGRAFIA})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="1" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="1" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="2" splitType="Stretch"/>
+	</summary>
+</jasperReport>
